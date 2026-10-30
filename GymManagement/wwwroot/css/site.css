@@ -1,0 +1,640 @@
+/* =========================================================
+   BASE
+   ========================================================= */
+
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+  margin-bottom: 60px;
+  background: var(--page-bg);
+  color: var(--text-color);
+  transition: background-color .2s ease, color .2s ease;
+}
+
+
+/* =========================================================
+   THEME VARIABLES
+   ========================================================= */
+
+:root {
+  --page-bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-color: #212529;
+  --muted-color: #6c757d;
+  --border-color: #dee2e6;
+
+  --navbar-bg: rgba(255, 255, 255, 0.94);
+  --navbar-border: rgba(0, 0, 0, 0.08);
+
+  --primary: #0d6efd;
+  --primary-light: rgba(13, 110, 253, 0.10);
+}
+
+[data-theme="dark"] {
+  --page-bg: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #f1f1f1;
+  --muted-color: #adb5bd;
+  --border-color: #444;
+
+  --navbar-bg: rgba(25, 25, 25, 0.95);
+  --navbar-border: rgba(255, 255, 255, 0.08);
+
+  --primary: #6ea8fe;
+  --primary-light: rgba(110, 168, 254, 0.12);
+}
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow:
+          0 0 0 0.1rem var(--page-bg),
+          0 0 0 0.25rem #258cfb;
+}
+
+
+/* =========================================================
+   MODERN NAVBAR
+   ========================================================= */
+
+.navbar {
+  background: var(--navbar-bg) !important;
+  border-bottom: 1px solid var(--navbar-border) !important;
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  padding: 0.7rem 0;
+
+  transition:
+          background-color .2s ease,
+          border-color .2s ease;
+}
+
+.navbar .container-fluid {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.navbar-brand {
+  position: relative;
+
+  color: var(--text-color) !important;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+
+  padding: 0.55rem 0.75rem;
+
+  transition:
+          color .2s ease,
+          transform .2s ease;
+}
+
+.navbar-brand:hover {
+  color: var(--primary) !important;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   NAVIGATION LINKS
+   ========================================================= */
+
+.navbar-nav {
+  gap: 0.15rem;
+}
+
+.navbar .nav-link {
+  position: relative;
+
+  color: var(--text-color) !important;
+
+  font-size: 0.94rem;
+  font-weight: 500;
+
+  padding: 0.65rem 0.8rem !important;
+
+  transition:
+          color .2s ease,
+          background-color .2s ease;
+}
+
+
+/* Blue underline */
+
+.navbar .nav-link::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.2rem;
+
+  height: 2px;
+
+  background: var(--primary);
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform .2s ease;
+}
+
+
+/* Hover */
+
+.navbar .nav-link:hover {
+  color: var(--primary) !important;
+}
+
+.navbar .nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+
+/* Focus */
+
+.navbar .nav-link:focus {
+  color: var(--primary) !important;
+  outline: none;
+}
+
+
+/* Icons */
+
+.navbar .nav-link i {
+  font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   NAVBAR TOGGLER
+   ========================================================= */
+
+.navbar-toggler {
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+
+  padding: 0.45rem 0.65rem;
+
+  transition:
+          background-color .2s ease,
+          border-color .2s ease;
+}
+
+.navbar-toggler:hover {
+  background: var(--primary-light);
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.2);
+}
+
+
+/* =========================================================
+   THEME BUTTON
+   ========================================================= */
+
+#themeToggle {
+  width: 42px;
+  height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 0.5rem;
+
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+
+  color: var(--text-color);
+  background: transparent;
+
+  transition:
+          color .2s ease,
+          background-color .2s ease,
+          border-color .2s ease,
+          transform .2s ease;
+}
+
+#themeToggle:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.card {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+.text-muted {
+  color: var(--muted-color) !important;
+}
+
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: #2b2b2b;
+  color: #ffffff;
+  border-color: #555;
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  background-color: #2b2b2b;
+  color: #ffffff;
+  border-color: #6ea8fe;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: #adb5bd;
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background: #121212;
+  color: #f1f1f1;
+}
+
+
+/* Text */
+
+[data-theme="dark"] p,
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] li,
+[data-theme="dark"] label {
+  color: #f1f1f1;
+}
+
+
+/* Cards */
+
+[data-theme="dark"] .card {
+  background: #1e1e1e;
+  color: #f1f1f1;
+  border-color: #333;
+}
+
+[data-theme="dark"] .card-header {
+  background: #1e1e1e !important;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .card-footer.bg-white {
+  background: #1e1e1e !important;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .card .text-muted {
+  color: #adb5bd !important;
+}
+
+[data-theme="dark"] .card hr {
+  border-color: #444;
+}
+
+
+/* Links */
+
+[data-theme="dark"] a {
+  color: #6ea8fe;
+}
+
+
+/* Tables */
+
+[data-theme="dark"] .table {
+  --bs-table-bg: #1e1e1e;
+  --bs-table-color: #f1f1f1;
+  --bs-table-hover-bg: #292929;
+  --bs-table-hover-color: #ffffff;
+
+  color: #f1f1f1;
+  border-color: #444;
+}
+
+[data-theme="dark"] .table th,
+[data-theme="dark"] .table td {
+  background: #1e1e1e;
+  color: #f1f1f1;
+  border-color: #444;
+}
+
+[data-theme="dark"] .table-light {
+  --bs-table-bg: #292929;
+  --bs-table-color: #f1f1f1;
+
+  background: #292929;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .table-light > * > * {
+  background: #292929 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .table .text-muted {
+  color: #adb5bd !important;
+}
+
+
+/* Dropdown */
+
+[data-theme="dark"] .dropdown-menu {
+  background: #1e1e1e;
+  border-color: #444;
+}
+
+[data-theme="dark"] .dropdown-item {
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+  background: #333;
+  color: #ffffff;
+}
+
+
+/* Buttons */
+
+[data-theme="dark"] .btn-outline-secondary {
+  color: #f1f1f1;
+  border-color: #777;
+}
+
+[data-theme="dark"] .btn-outline-secondary:hover {
+  background: #333;
+  color: #ffffff;
+}
+
+
+/* Light sections */
+
+[data-theme="dark"] .bg-light {
+  background: #1e1e1e !important;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .bg-light .text-muted {
+  color: #adb5bd !important;
+}
+
+
+/* =========================================================
+   ADMIN DASHBOARD
+   ========================================================= */
+
+[data-theme="dark"] .admin-dashboard {
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .stat-card {
+  background: #1e1e1e;
+  border-color: #333;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .stat-number {
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .stat-label,
+[data-theme="dark"] .stat-description {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .dashboard-panel {
+  background: #1e1e1e;
+  border-color: #333;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .admin-action {
+  border-color: #333;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .admin-action:hover {
+  background: #292929;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .action-content p {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .action-arrow {
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .status-item {
+  border-color: #333;
+}
+
+[data-theme="dark"] .status-name {
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .status-name i {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .system-message {
+  background: #17251d;
+  color: #75d99b;
+}
+
+[data-theme="dark"] .system-message div div {
+  color: #adb5bd;
+}
+
+
+/* Dashboard icons */
+
+[data-theme="dark"] .members .stat-icon,
+[data-theme="dark"] .membership-action .action-icon {
+  background: #172b4d;
+}
+
+[data-theme="dark"] .subscriptions .stat-icon,
+[data-theme="dark"] .booking-action .action-icon {
+  background: #173a29;
+}
+
+[data-theme="dark"] .classes .stat-icon {
+  background: #3d3217;
+}
+
+[data-theme="dark"] .bookings .stat-icon {
+  background: #3d1d22;
+}
+
+[data-theme="dark"] .users-action .action-icon {
+  background: #29294a;
+}
+
+[data-theme="dark"] .admin-badge,
+[data-theme="dark"] .panel-header-icon {
+  background: #0b0b0b;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   USER MANAGEMENT
+   ========================================================= */
+
+[data-theme="dark"] .user-header-icon {
+  background: #172b4d;
+  color: #6ea8fe;
+}
+
+[data-theme="dark"] .user-avatar {
+  background: #2b2b2b;
+  color: #f1f1f1;
+}
+
+
+/* =========================================================
+   MEMBERSHIP PLANS
+   ========================================================= */
+
+[data-theme="dark"] .gm-plan {
+  background: #1e1e1e;
+  color: #f1f1f1;
+  border-color: #333;
+}
+
+[data-theme="dark"] .gm-plan .card-title {
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .gm-price {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .gm-plan .text-muted {
+  color: #adb5bd !important;
+}
+
+[data-theme="dark"] .card h3.text-success {
+  color: #75d99b !important;
+}
+
+
+/* =========================================================
+   COOKIE
+   ========================================================= */
+
+[data-theme="dark"] .gm-cookie {
+  background: #1c1f26;
+  color: #e8eaed;
+}
+
+
+/* =========================================================
+   RESPONSIVE NAVBAR
+   ========================================================= */
+
+@media (max-width: 767.98px) {
+
+  .navbar-nav {
+    gap: 0.1rem;
+    padding-top: 0.75rem;
+  }
+
+  .navbar .nav-link {
+    padding: 0.65rem 0.75rem !important;
+  }
+
+  .navbar .nav-link::after {
+    left: 0.75rem;
+    right: auto;
+    width: 35px;
+  }
+
+  #themeToggle {
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+
+/* =========================================================
+   AUTOMATIC SYSTEM THEME
+   Only applies when JavaScript has not selected a theme.
+   ========================================================= */
+
+@media (prefers-color-scheme: dark) {
+
+  html:not([data-theme]) {
+    color-scheme: dark;
+
+    --page-bg: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #f1f1f1;
+    --muted-color: #adb5bd;
+    --border-color: #444;
+
+    --navbar-bg: rgba(25, 25, 25, 0.95);
+    --navbar-border: rgba(255, 255, 255, 0.08);
+
+    --primary: #6ea8fe;
+    --primary-light: rgba(110, 168, 254, 0.12);
+  }
+}
