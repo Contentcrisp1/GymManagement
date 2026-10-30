@@ -1,0 +1,81 @@
+@model IEnumerable<GymManagement.Models.ViewModels.UpcomingClassViewModel>
+@{
+    ViewData["Title"] = "Book Classes";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+    <div>
+        <h1 class="mb-1">Upcoming Classes</h1>
+        <p class="text-muted mb-0">Reserve your spot in one of our group classes.</p>
+    </div>
+    <a class="btn btn-outline-secondary" asp-controller="Bookings" asp-action="MyBookings">My Bookings</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        There are no upcoming classes at the moment. Please check back later.
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var gymClass in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                            <h5 class="card-title mb-0">@gymClass.Name</h5>
+
+                            @if (gymClass.IsFull)
+                            {
+                                <span class="badge bg-danger">Full</span>
+                            }
+                            else if (gymClass.SpotsLeft <= 3)
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    Spots Left: @gymClass.SpotsLeft/@gymClass.MaxCapacity
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">
+                                    Spots Left: @gymClass.SpotsLeft/@gymClass.MaxCapacity
+                                </span>
+                            }
+                        </div>
+
+                        <p class="text-muted mb-3">with @gymClass.TrainerName</p>
+
+                        <ul class="list-unstyled small mb-4">
+                            <li><strong>Starts:</strong> @gymClass.StartTime.ToString("ddd, dd MMM yyyy HH:mm")</li>
+                            <li><strong>Duration:</strong> @gymClass.DurationInMinutes min</li>
+                            <li><strong>Booked:</strong> @gymClass.BookedCount / @gymClass.MaxCapacity</li>
+                        </ul>
+
+                        <div class="mt-auto">
+                            @if (gymClass.AlreadyBooked)
+                            {
+                                <button type="button" class="btn btn-secondary w-100" disabled>Already Booked</button>
+                            }
+                            else if (gymClass.IsFull)
+                            {
+                                <button type="button" class="btn btn-outline-danger w-100" disabled>Class Full</button>
+                            }
+                            else
+                            {
+                                <form asp-controller="Bookings" asp-action="Book" method="post">
+                                    <input type="hidden" name="id" value="@gymClass.Id"/>
+                                    <button type="submit" class="btn btn-primary w-100">Book Now</button>
+                                </form>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

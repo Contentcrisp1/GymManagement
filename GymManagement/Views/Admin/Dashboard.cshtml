@@ -1,0 +1,796 @@
+@model GymManagement.Models.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="admin-dashboard">
+
+    <!-- Header -->
+    <div class="dashboard-header mb-4">
+
+        <div>
+            <div class="text-uppercase small fw-semibold text-primary mb-2">
+                Administration
+            </div>
+
+            <h1 class="fw-bold mb-2">
+                Gym Management
+            </h1>
+
+            <p class="text-muted mb-0">
+                Monitor your gym and manage daily operations.
+            </p>
+        </div>
+
+        <div class="admin-badge">
+            <i class="bi bi-shield-lock-fill"></i>
+            <span>Administrator</span>
+        </div>
+
+    </div>
+
+
+    <!-- Statistics -->
+    <div class="row g-4 mb-4">
+
+        <!-- Members -->
+        <div class="col-sm-6 col-xl-3">
+
+            <div class="stat-card members">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                    <span class="stat-label">
+                        MEMBERS
+                    </span>
+
+                </div>
+
+                <div class="stat-number">
+                    @Model.TotalMembers
+                </div>
+
+                <div class="stat-description">
+                    Registered members
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Subscriptions -->
+        <div class="col-sm-6 col-xl-3">
+
+            <div class="stat-card subscriptions">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-credit-card-fill"></i>
+                    </div>
+
+                    <span class="stat-label">
+                        SUBSCRIPTIONS
+                    </span>
+
+                </div>
+
+                <div class="stat-number">
+                    @Model.ActiveSubscriptions
+                </div>
+
+                <div class="stat-description">
+                    Active subscriptions
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Classes -->
+        <div class="col-sm-6 col-xl-3">
+
+            <div class="stat-card classes">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-calendar-event-fill"></i>
+                    </div>
+
+                    <span class="stat-label">
+                        CLASSES
+                    </span>
+
+                </div>
+
+                <div class="stat-number">
+                    @Model.TotalClasses
+                </div>
+
+                <div class="stat-description">
+                    Scheduled classes
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Today's Bookings -->
+        <div class="col-sm-6 col-xl-3">
+
+            <div class="stat-card bookings">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-ticket-perforated-fill"></i>
+                    </div>
+
+                    <span class="stat-label">
+                        TODAY
+                    </span>
+
+                </div>
+
+                <div class="stat-number">
+                    @Model.TodayBookings
+                </div>
+
+                <div class="stat-description">
+                    Bookings made today
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="row g-4">
+
+        <!-- Quick Actions -->
+        <div class="col-lg-8">
+
+            <div class="dashboard-panel h-100">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h4 class="fw-bold mb-1">
+                            Quick Actions
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Manage your gym's core services.
+                        </p>
+                    </div>
+
+                    <div class="panel-header-icon">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3 mt-2">
+
+                    <!-- Memberships -->
+                    <div class="col-md-6">
+
+                        <a asp-controller="Memberships"
+                           asp-action="Manage"
+                           class="admin-action membership-action">
+
+                            <div class="action-icon">
+                                <i class="bi bi-card-checklist"></i>
+                            </div>
+
+                            <div class="action-content">
+
+                                <h6>
+                                    Manage Memberships
+                                </h6>
+
+                                <p>
+                                    Create, edit, delete and search membership plans.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-up-right action-arrow"></i>
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- Bookings -->
+                    <div class="col-md-6">
+
+                        <a asp-controller="Admin"
+                           asp-action="Bookings"
+                           class="admin-action booking-action">
+
+                            <div class="action-icon">
+                                <i class="bi bi-calendar2-check-fill"></i>
+                            </div>
+
+                            <div class="action-content">
+
+                                <h6>
+                                    Manage Bookings
+                                </h6>
+
+                                <p>
+                                    View and manage gym class bookings.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-up-right action-arrow"></i>
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- Users -->
+                    <div class="col-md-6">
+
+                        <a asp-controller="Users"
+                           asp-action="Index"
+                           class="admin-action users-action">
+
+                            <div class="action-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+
+                            <div class="action-content">
+
+                                <h6>
+                                    Manage Users
+                                </h6>
+
+                                <p>
+                                    Create, view and manage gym user accounts.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-up-right action-arrow"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- System Status -->
+        <div class="col-lg-4">
+
+            <div class="dashboard-panel h-100">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h4 class="fw-bold mb-1">
+                            System Status
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Current services
+                        </p>
+                    </div>
+
+                    <div class="online-indicator">
+                        <span></span>
+                        Online
+                    </div>
+
+                </div>
+
+
+                <div class="status-list">
+
+                    <!-- Membership -->
+                    <div class="status-item">
+
+                        <div class="status-name">
+                            <i class="bi bi-credit-card"></i>
+                            Membership System
+                        </div>
+
+                        <span class="status-active">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <!-- Bookings -->
+                    <div class="status-item">
+
+                        <div class="status-name">
+                            <i class="bi bi-calendar-check"></i>
+                            Class Bookings
+                        </div>
+
+                        <span class="status-active">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <!-- Users -->
+                    <div class="status-item">
+
+                        <div class="status-name">
+                            <i class="bi bi-people"></i>
+                            User Management
+                        </div>
+
+                        <span class="status-active">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <!-- Identity -->
+                    <div class="status-item">
+
+                        <div class="status-name">
+                            <i class="bi bi-person-badge"></i>
+                            Identity
+                        </div>
+
+                        <span class="status-active">
+                            Active
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-message">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    <div>
+
+                        <strong>
+                            Everything looks good.
+                        </strong>
+
+                        <div>
+                            Core gym management services are available.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    /* =========================
+       DASHBOARD
+       ========================= */
+
+    .admin-dashboard {
+        padding: 28px 10px 40px;
+    }
+
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 2rem;
+        letter-spacing: -0.5px;
+    }
+
+    .admin-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        background: #111827;
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .12);
+    }
+
+    .admin-badge i {
+        color: #60a5fa;
+    }
+
+
+    /* =========================
+       STATISTICS
+       ========================= */
+
+    .stat-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 175px;
+        padding: 24px;
+        border-radius: 18px;
+        background: white;
+        border: 1px solid #edf0f4;
+        box-shadow: 0 5px 20px rgba(15, 23, 42, .06);
+        transition: all .2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(15, 23, 42, .10);
+    }
+
+    .stat-card::after {
+        content: "";
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        right: -35px;
+        bottom: -35px;
+        opacity: .08;
+    }
+
+    .stat-card.members::after {
+        background: #0d6efd;
+    }
+
+    .stat-card.subscriptions::after {
+        background: #198754;
+    }
+
+    .stat-card.classes::after {
+        background: #f59e0b;
+    }
+
+    .stat-card.bookings::after {
+        background: #dc3545;
+    }
+
+    .stat-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .stat-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.15rem;
+    }
+
+    .members .stat-icon {
+        background: #e7f0ff;
+        color: #0d6efd;
+    }
+
+    .subscriptions .stat-icon {
+        background: #e8f7ef;
+        color: #198754;
+    }
+
+    .classes .stat-icon {
+        background: #fff4d8;
+        color: #d99000;
+    }
+
+    .bookings .stat-icon {
+        background: #fde8eb;
+        color: #dc3545;
+    }
+
+    .stat-label {
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: .8px;
+        color: #8a94a6;
+    }
+
+    .stat-number {
+        font-size: 2.2rem;
+        line-height: 1;
+        font-weight: 800;
+        margin-top: 22px;
+        color: #172033;
+    }
+
+    .stat-description {
+        color: #7b8494;
+        font-size: .85rem;
+        margin-top: 8px;
+    }
+
+
+    /* =========================
+       PANELS
+       ========================= */
+
+    .dashboard-panel {
+        background: white;
+        border: 1px solid #edf0f4;
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(15, 23, 42, .06);
+    }
+
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .panel-header-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #111827;
+        color: white;
+    }
+
+
+    /* =========================
+       QUICK ACTIONS
+       ========================= */
+
+    .admin-action {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        min-height: 115px;
+        padding: 18px;
+        border-radius: 14px;
+        border: 1px solid #edf0f4;
+        color: inherit;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+    .admin-action:hover {
+        transform: translateY(-3px);
+        color: inherit;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, .08);
+    }
+
+
+    /* Membership */
+
+    .membership-action:hover {
+        border-color: #9ec5fe;
+        background: #f8fbff;
+    }
+
+    .membership-action .action-icon {
+        background: #e7f0ff;
+        color: #0d6efd;
+    }
+
+
+    /* Bookings */
+
+    .booking-action:hover {
+        border-color: #a3cfbb;
+        background: #f8fffb;
+    }
+
+    .booking-action .action-icon {
+        background: #e8f7ef;
+        color: #198754;
+    }
+
+
+    /* Users */
+
+    .users-action:hover {
+        border-color: #b8b8ff;
+        background: #fafaff;
+    }
+
+    .users-action .action-icon {
+        background: #eeefff;
+        color: #6366f1;
+    }
+
+
+    .action-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.15rem;
+    }
+
+    .action-content {
+        flex: 1;
+    }
+
+    .action-content h6 {
+        margin: 0 0 5px;
+        font-weight: 700;
+    }
+
+    .action-content p {
+        margin: 0;
+        color: #7b8494;
+        font-size: .8rem;
+        line-height: 1.4;
+    }
+
+    .action-arrow {
+        color: #9aa3b2;
+        font-size: 1rem;
+    }
+
+
+    /* =========================
+       SYSTEM STATUS
+       ========================= */
+
+    .online-indicator {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #198754;
+        font-size: .8rem;
+        font-weight: 600;
+    }
+
+    .online-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #198754;
+        box-shadow: 0 0 0 4px #e8f7ef;
+    }
+
+    .status-list {
+        margin-top: 25px;
+    }
+
+    .status-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #f0f2f5;
+    }
+
+    .status-item:last-child {
+        border-bottom: none;
+    }
+
+    .status-name {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: .9rem;
+        font-weight: 500;
+    }
+
+    .status-name i {
+        color: #6b7280;
+    }
+
+    .status-active {
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: #e8f7ef;
+        color: #198754;
+        font-size: .72rem;
+        font-weight: 700;
+    }
+
+
+    /* =========================
+       SYSTEM MESSAGE
+       ========================= */
+
+    .system-message {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        margin-top: 22px;
+        padding: 13px;
+        border-radius: 12px;
+        background: #f3fbf6;
+        color: #198754;
+        font-size: .8rem;
+    }
+
+    .system-message i {
+        margin-top: 2px;
+    }
+
+    .system-message div div {
+        color: #6c757d;
+        margin-top: 2px;
+    }
+
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @@media (max-width: 767px) {
+
+        .admin-dashboard {
+            padding: 20px 5px 30px;
+        }
+
+        .dashboard-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .admin-badge {
+            align-self: flex-start;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.7rem;
+        }
+
+        .dashboard-panel {
+            padding: 20px;
+        }
+
+        .admin-action {
+            min-height: 100px;
+        }
+
+    }
+
+</style>

@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+<title>@ViewData["Title"] - GymManagement</title>
+
+<link rel="stylesheet"
+      href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+
+<link rel="stylesheet"
+      href="~/css/site.css"
+      asp-append-version="true"/>
+
+<link rel="stylesheet"
+      href="~/GymManagement.styles.css"
+      asp-append-version="true"/>
+
+
+</head>
+
+<body>
+
+<header>
+
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+    <div class="container-fluid">
+
+        @* =====================================================
+           LOG0
+           ===================================================== *@
+
+        <a class="navbar-brand fw-bold"
+           asp-controller="Home"
+           asp-action="Index">
+            🏋️ <span>GymManagement</span>
+        </a>
+
+        @* Mobile menu button *@
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target=".navbar-collapse"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+            <ul class="navbar-nav flex-grow-1">
+
+
+                @* =====================================================
+                   GUEST / PUBLIC
+                   ===================================================== *@
+
+                @if (!User.Identity?.IsAuthenticated ?? true)
+                {
+                    <li class="nav-item">
+
+                        <a class="nav-link text-dark"
+                           asp-controller="Home"
+                           asp-action="Index">
+
+                            Home
+
+                        </a>
+
+                    </li>
+                }
+
+
+                @* =====================================================
+                   MEMBER
+                   ===================================================== *@
+
+                @if (User.IsInRole("Member"))
+                {
+                    <li class="nav-item">
+
+                        <a class="nav-link text-dark"
+                           asp-controller="Home"
+                           asp-action="Index">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link text-dark"
+                           asp-controller="Bookings"
+                           asp-action="Index">
+
+                            <i class="bi bi-calendar-event me-1"></i>
+                            Book Classes
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link text-dark"
+                           asp-controller="Memberships"
+                           asp-action="Index">
+
+                            <i class="bi bi-card-checklist me-1"></i>
+                            Membership Plans
+
+                        </a>
+
+                    </li>
+                }
+
+
+                @* =====================================================
+                   TRAINER
+                   ===================================================== *@
+
+                @if (User.IsInRole("Trainer"))
+                {
+                    <li class="nav-item">
+
+                        <a class="nav-link text-dark"
+                           asp-controller="Home"
+                           asp-action="Index">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark"
+                               asp-controller="Trainer"
+                               asp-action="Schedule">
+                                My Schedule
+                            </a>
+                        </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link text-dark"
+                           asp-controller="Trainer"
+                           asp-action="CreateClass">
+                            Create Class
+                        </a>
+                    </li>
+                    }
+
+
+                @* =====================================================
+                   ADMIN
+                   ===================================================== *@
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+
+                        <a class="nav-link text-dark"
+                           asp-controller="Admin"
+                           asp-action="Dashboard">
+
+                            <i class="bi bi-speedometer2 me-1"></i>
+                            Admin Dashboard
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link text-dark"
+                           asp-controller="Users"
+                           asp-action="Index">
+
+                            <i class="bi bi-people me-1"></i>
+                            User Management
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link text-dark"
+                           asp-controller="Memberships"
+                           asp-action="Manage">
+
+                            <i class="bi bi-card-list me-1"></i>
+                            Manage Plans
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link text-dark"
+                           asp-controller="Admin"
+                           asp-action="Bookings">
+
+                            <i class="bi bi-calendar-check me-1"></i>
+                            Manage Bookings
+
+                        </a>
+
+                    </li>
+                }
+
+
+                @* =====================================================
+                   PRIVACY
+                   Available to everyone
+                   ===================================================== *@
+
+                <li class="nav-item">
+
+                    <a class="nav-link text-dark"
+                       asp-controller="Home"
+                       asp-action="Privacy">
+
+                        Privacy
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+            <button id="themeToggle"
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    aria-label="Toggle dark mode">
+                🌙
+            </button>
+            @* Login / Logout *@
+
+            <partial name="_LoginPartial"/>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+</header>
+
+@* =========================================================
+MAIN CONTENT
+========================================================= *@
+
+<div class="container">
+
+
+@* Success message *@
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mb-3"
+         role="alert">
+
+        @TempData["SuccessMessage"]
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close">
+        </button>
+
+    </div>
+}
+
+
+@* Error message *@
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mb-3"
+         role="alert">
+
+        @TempData["ErrorMessage"]
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close">
+        </button>
+
+    </div>
+}
+
+
+<main role="main" class="pb-3">
+
+    @RenderBody()
+
+</main>
+
+
+</div>
+
+@* =========================================================
+FOOTER
+========================================================= *@
+<footer class="bg-dark text-white mt-5">
+    <div class="container py-5">
+
+        <div class="row g-4">
+
+            <!-- Gym -->
+            <div class="col-lg-4">
+                <h6 class="fw-bold mb-3">GymManagement</h6>
+
+                <p class="text-white-50">
+                    Train smarter. Stay stronger.
+                </p>
+                <p class="text-white-50">info@gym.com</p>
+                <p class="text-white-50 mb-1">Skopje</p>
+                <p class="text-white-50 mb-1">+38970123456</p>
+            </div>
+
+            <!-- Site -->
+            <div class="col-6 col-lg-2">
+                <h6 class="fw-bold mb-3">Site</h6>
+
+                <a class="d-block text-white-50 text-decoration-none mb-2"
+                   asp-controller="Home"
+                   asp-action="Index">
+                    Home
+                </a>
+
+                <a class="d-block text-white-50 text-decoration-none mb-2"
+                   asp-controller="Home"
+                   asp-action="Privacy">
+                    Privacy
+                </a>
+
+                <a class="d-block text-white-50 text-decoration-none"
+                   asp-area="Identity"
+                   asp-page="/Account/Login">
+                    Login
+                </a>
+            </div>
+
+            <!-- Member -->
+            <div class="col-6 col-lg-2">
+                <h6 class="fw-bold mb-3">Member</h6>
+
+                <a class="d-block text-white-50 text-decoration-none mb-2"
+                   asp-controller="Bookings"
+                   asp-action="Index">
+                    Book Classes
+                </a>
+
+                <a class="d-block text-white-50 text-decoration-none"
+                   asp-controller="Memberships"
+                   asp-action="Index">
+                    Membership Plans
+                </a>
+            </div>
+
+            <!-- Trainer -->
+            <div class="col-6 col-lg-2">
+                <h6 class="fw-bold mb-3">Trainer</h6>
+
+                <a class="d-block text-white-50 text-decoration-none mb-2"
+                   asp-controller="Trainer"
+                   asp-action="Schedule">
+                    My Schedule
+                </a>
+
+                <a class="d-block text-white-50 text-decoration-none mb-2"
+                   asp-controller="Trainer"
+                   asp-action="CreateClass">
+                    Create Class
+                </a>
+                
+            </div>
+
+            <!-- Admin -->
+            <div class="col-6 col-lg-2">
+                <h6 class="fw-bold mb-3">Admin</h6>
+
+                <a class="d-block text-white-50 text-decoration-none mb-2"
+                   asp-controller="Admin"
+                   asp-action="Dashboard">
+                    Dashboard
+                </a>
+
+                <a class="d-block text-white-50 text-decoration-none mb-2"
+                   asp-controller="Users"
+                   asp-action="Index">
+                    User Management
+                </a>
+
+                <a class="d-block text-white-50 text-decoration-none mb-2"
+                   asp-controller="Memberships"
+                   asp-action="Manage">
+                    Membership Plans
+                </a>
+
+                <a class="d-block text-white-50 text-decoration-none"
+                   asp-controller="Admin"
+                   asp-action="Bookings">
+                    Bookings
+                </a>
+            </div>
+
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <!-- Demo Accounts -->
+        <div class="row">
+            <div class="col-12">
+
+                <h6 class="fw-bold mb-3">Demo Accounts</h6>
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <div class="border border-secondary rounded p-3">
+                            <strong>Member</strong>
+                            <div class="small text-white-50 mt-2">
+                                Email: member@gym.com<br />
+                                Password: Member123!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="border border-secondary rounded p-3">
+                            <strong>Trainers</strong>
+
+                            <div class="small text-white-50 mt-2">
+                                <strong>John Doe</strong><br />
+                                Email: john.doe@gym.com<br />
+                                Password: Trainer123!
+                                <hr class="border-secondary my-2" />
+
+                                <strong>Sarah Smith</strong><br />
+                                Email: sarah.smith@gym.com<br />
+                                Password: Trainer123!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="border border-secondary rounded p-3">
+                            <strong>Admin</strong>
+                            <div class="small text-white-50 mt-2">
+                                Email: admin@gym.com<br />
+                                Password: Admin123!
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <div class="text-center text-white-50">
+            <small>
+                &copy; 2026 GymManagement · University Project
+            </small>
+        </div>
+
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/js/site.js"
+        asp-append-version="true"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+<script src="~/js/theme.js" asp-append-version="true"></script>
+
+</body>
+
+</html>

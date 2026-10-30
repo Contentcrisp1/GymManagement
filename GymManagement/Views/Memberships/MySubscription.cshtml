@@ -1,0 +1,122 @@
+﻿@model GymManagement.Models.Subscription?
+
+@{
+    ViewData["Title"] = "My Subscription";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">My Subscription</h2>
+
+    @if (Model == null)
+    {
+        <div class="alert alert-warning">
+            <h5>You don't have an active subscription.</h5>
+
+            <p>
+                Browse our available membership plans and subscribe today.
+            </p>
+
+            <a asp-action="Index" class="btn btn-primary">
+                View Membership Plans
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow">
+
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    @Model.MembershipType.Name
+                </h4>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <h5>Membership Details</h5>
+
+                        <table class="table table-borderless">
+
+                            <tr>
+                                <th>Plan</th>
+                                <td>@Model.MembershipType.Name</td>
+                            </tr>
+
+                            <tr>
+                                <th>Price</th>
+                                <td>$@Model.MembershipType.Price</td>
+                            </tr>
+
+                            <tr>
+                                <th>Duration</th>
+                                <td>@Model.MembershipType.DurationInDays days</td>
+                            </tr>
+
+                            <tr>
+                                <th>Started</th>
+                                <td>@Model.StartDate.ToString("dd MMM yyyy")</td>
+                            </tr>
+
+                            <tr>
+                                <th>Expires</th>
+                                <td>@Model.EndDate.ToString("dd MMM yyyy")</td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                    <div class="col-md-6 text-center">
+
+                        <h5>Status</h5>
+
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success fs-5 px-4 py-3">
+                                Active
+                            </span>
+
+                            <p class="mt-3 text-success">
+                                Your membership is currently active.
+                            </p>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger fs-5 px-4 py-3">
+                                Expired
+                            </span>
+
+                            <p class="mt-3 text-danger">
+                                Your membership has expired.
+                            </p>
+
+                            <a asp-action="Index"
+                               class="btn btn-warning mt-2">
+                                Renew Membership
+                            </a>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    Back to Membership Plans
+                </a>
+
+            </div>
+
+        </div>
+    }
+
+</div>

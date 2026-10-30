@@ -1,0 +1,171 @@
+﻿@model GymManagement.Models.ViewModels.TrainerCreateClassViewModel
+
+@{
+    ViewData["Title"] = "Create Class";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Create New Class</h1>
+            <p class="text-muted mb-0">
+                Create a new gym class and add it to your schedule.
+            </p>
+        </div>
+
+        <a asp-controller="Trainer"
+           asp-action="Schedule"
+           class="btn btn-outline-secondary">
+            Back to Schedule
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+                    <h5 class="mb-0">Class Information</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-controller="Trainer"
+                          asp-action="CreateClass"
+                          method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger">
+                        </div>
+
+                        <!-- TITLE -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="Name"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Name"
+                                   class="form-control"
+                                   placeholder="e.g. Morning HIIT" />
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- TIME -->
+
+                        <div class="mb-3">
+
+                            <label asp-for="StartTime"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="StartTime"
+                                   type="datetime-local"
+                                   class="form-control" />
+
+                            <span asp-validation-for="StartTime"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="row">
+
+                            <!-- DURATION -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="DurationInMinutes"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input asp-for="DurationInMinutes"
+                                           type="number"
+                                           min="1"
+                                           class="form-control" />
+
+                                    <span class="input-group-text">
+                                        minutes
+                                    </span>
+
+                                </div>
+
+                                <span asp-validation-for="DurationInMinutes"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- CAPACITY -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="MaxCapacity"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input asp-for="MaxCapacity"
+                                           type="number"
+                                           min="1"
+                                           class="form-control" />
+
+                                    <span class="input-group-text">
+                                        members
+                                    </span>
+
+                                </div>
+
+                                <span asp-validation-for="MaxCapacity"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-end">
+
+                            <a asp-controller="Trainer"
+                               asp-action="Schedule"
+                               class="btn btn-secondary me-2">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Create Class
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

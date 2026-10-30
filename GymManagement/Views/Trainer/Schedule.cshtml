@@ -1,0 +1,222 @@
+﻿@model IEnumerable<GymManagement.Models.GymClass>
+
+@{
+    ViewData["Title"] = "My Schedule";
+}
+
+<div class="container mt-4">
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>My Schedule</h1>
+
+            <p class="text-muted mb-0">
+                View your assigned classes and manage their rosters.
+            </p>
+        </div>
+
+        <a asp-controller="Trainer"
+           asp-action="CreateClass"
+           class="btn btn-primary">
+            Create New Class
+        </a>
+
+    </div>
+
+    <!-- SUCCESS MESSAGE -->
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show"
+             role="alert">
+
+            @TempData["SuccessMessage"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    <!-- NO CLASSES -->
+
+    @if (!Model.Any())
+    {
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <h4>No Classes Assigned</h4>
+
+                <p class="text-muted">
+                    You currently don't have any classes in your schedule.
+                </p>
+
+                <a asp-controller="Trainer"
+                   asp-action="CreateClass"
+                   class="btn btn-primary">
+                    Create Your First Class
+                </a>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="row">
+
+            @foreach (var gymClass in Model)
+            {
+                var endTime =
+                    gymClass.StartTime.AddMinutes(
+                        gymClass.DurationInMinutes);
+
+                var registered =
+                    gymClass.Bookings.Count;
+
+                var available =
+                    gymClass.MaxCapacity - registered;
+
+                <div class="col-md-6 col-xl-4 mb-4">
+
+                    <div class="card shadow-sm h-100">
+
+                        <!-- CARD HEADER -->
+
+                        <div class="card-header">
+
+                            <h5 class="mb-0">
+                                @gymClass.Name
+                            </h5>
+
+                        </div>
+
+                        <!-- CARD BODY -->
+
+                        <div class="card-body">
+
+                            <!-- TRAINER -->
+
+                            <div class="mb-3">
+
+                                <small class="text-muted">
+                                    TRAINER
+                                </small>
+
+                                <div>
+                                    <strong>
+                                        @gymClass.Trainer.FirstName
+                                        @gymClass.Trainer.LastName
+                                    </strong>
+                                </div>
+
+                            </div>
+                            
+                            <!-- DATE -->
+
+                            <div class="mb-3">
+
+                                <small class="text-muted">
+                                    DATE
+                                </small>
+
+                                <div>
+                                    @(gymClass.StartTime.ToLocalTime().ToString("dddd, dd MMMM yyyy"))
+                                </div>
+
+                            </div>
+
+
+                            <!-- TIME -->
+
+                            <div class="mb-3">
+
+                                <small class="text-muted">
+                                    TIME
+                                </small>
+
+                                <div>
+                                    @(gymClass.StartTime.ToLocalTime().ToString("HH:mm"))
+                                    -
+                                    @(endTime.ToLocalTime().ToString("HH:mm"))
+                                </div>
+
+                            </div>
+
+                            <!-- DURATION -->
+
+                            <div class="mb-3">
+
+                                <small class="text-muted">
+                                    DURATION
+                                </small>
+
+                                <div>
+                                    @gymClass.DurationInMinutes minutes
+                                </div>
+
+                            </div>
+
+                            <!-- CAPACITY -->
+
+                            <div class="mb-3">
+
+                                <small class="text-muted">
+                                    CAPACITY
+                                </small>
+
+                                <div>
+
+                                    <strong>
+                                        @registered
+                                    </strong>
+                                    /
+                                    @gymClass.MaxCapacity
+
+                                    @if (available <= 0)
+                                    {
+                                        <span class="badge bg-danger ms-2">
+                                            Full
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success ms-2">
+                                            @available available
+                                        </span>
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- CARD FOOTER -->
+
+                        <div class="card-footer">
+
+                            <a asp-controller="Trainer"
+                               asp-action="Roster"
+                               asp-route-id="@gymClass.Id"
+                               class="btn btn-outline-primary w-100">
+                                View Class Roster
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

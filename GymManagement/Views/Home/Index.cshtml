@@ -1,0 +1,245 @@
+﻿@model List<MembershipType>
+@{
+    ViewData["Title"] = "Home";
+
+    // Change this one string if the group decides on a different currency.
+    var currency = "$";
+
+    // "Best value" is worked out from the data, not hard-coded:
+    // it is the plan with the lowest price per day.
+    var bestValue = Model
+        .Where(p => p.DurationInDays > 0)
+        .OrderBy(p => p.Price / p.DurationInDays)
+        .FirstOrDefault();
+}
+
+<style>
+    .gm-hero {
+        background: #1c1f26;
+        background-image: linear-gradient(115deg, #1c1f26 0%, #1c1f26 55%, #262b34 55%, #262b34 100%);
+        border-radius: 1rem;
+        color: #fff;
+        padding: 3.5rem 2rem;
+    }
+
+    .gm-hero h1 {
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+    }
+
+    .gm-eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #9aa4b2;
+    }
+
+    .gm-plan {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .gm-plan:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    .gm-price {
+        font-size: 2.25rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    /* Cookie consent popup */
+    .gm-cookie {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 1080;
+        max-width: 46rem;
+        margin: 0 auto;
+        background: #1c1f26;
+        color: #e8eaed;
+        border-radius: 0.75rem;
+        padding: 1rem 1.25rem;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.35);
+    }
+
+    .gm-cookie a {
+        color: #9ec5fe;
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .gm-plan {
+            transition: none;
+        }
+
+        .gm-plan:hover {
+            transform: none;
+        }
+    }
+</style>
+
+@* ---------- Hero: what the gym is, and the one action we want ---------- *@
+<section class="gm-hero mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <p class="gm-eyebrow mb-2">GymManagement</p>
+            <h1 class="display-5 mb-3">Train on your schedule.</h1>
+            <p class="lead text-white-50 mb-4">
+                Book group classes, keep track of your membership, and train when it actually
+                suits you. Pick a plan below and start this week.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-primary btn-lg px-4" asp-area="Identity" asp-page="/Account/Register">Join now</a>
+                <a class="btn btn-outline-light btn-lg px-4" href="#plans">See plans</a>
+            </div>
+        </div>
+        <div class="col-lg-5 d-none d-lg-block text-center">
+            <span style="font-size: 8rem; line-height: 1;" aria-hidden="true">🏋️</span>
+        </div>
+    </div>
+</section>
+
+@* ---------- What members actually get (all of this is real app behaviour) ---------- *@
+<section class="mb-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <h2 class="h5">Group classes</h2>
+            <p class="text-muted mb-0">
+                Browse what's coming up and reserve a spot from your account. Changed your mind?
+                Cancel any time before the class starts.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h2 class="h5">Trained by our staff</h2>
+            <p class="text-muted mb-0">
+                Every class on the schedule is run by one of our trainers, so you always know
+                who you're training with before you book.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h2 class="h5">Plans that fit</h2>
+            <p class="text-muted mb-0">
+                Train once a week or every day. Choose the plan that matches how often you
+                actually come in, not the one that sounds impressive.
+            </p>
+        </div>
+    </div>
+</section>
+
+@* ---------- Membership plans, loaded from MembershipType ---------- *@
+<section id="plans" class="mb-5">
+    <div class="mb-4">
+        <p class="gm-eyebrow mb-1">Membership</p>
+        <h2 class="h1 mb-0">Choose your plan</h2>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info mb-0">
+            No membership plans are listed yet. Please check back soon.
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var plan in Model)
+            {
+                var isBestValue = bestValue != null && plan.Id == bestValue.Id;
+
+                <div class="col">
+                    <div class="card gm-plan h-100 @(isBestValue ? "border-primary border-2" : "")">
+                        <div class="card-body d-flex flex-column">
+
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                                <h3 class="h5 card-title mb-0">@plan.Name</h3>
+                                @if (isBestValue)
+                                {
+                                    <span class="badge bg-primary">Best value per day</span>
+                                }
+                            </div>
+
+                            <p class="gm-price mb-1">@currency@plan.Price.ToString("0.00")</p>
+
+                            <p class="text-muted small mb-3">
+                                @plan.DurationInDays days
+                                @if (plan.DurationInDays > 0)
+                                {
+                                    <text>&middot; @currency@((plan.Price / plan.DurationInDays).ToString("0.00")) per day</text>
+                                }
+                            </p>
+
+                            <p class="mb-4">@plan.Description</p>
+
+                            <a class="btn @(isBestValue ? "btn-primary" : "btn-outline-primary") w-100 mt-auto"
+                               asp-area="Identity" asp-page="/Account/Register">
+                                Join now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <p class="text-muted small mt-3 mb-0">
+            Already a member? <a asp-area="Identity" asp-page="/Account/Login">Log in</a> to book your next class.
+        </p>
+    }
+</section>
+
+@* ---------- Short privacy note, linking to the full policy ---------- *@
+<section class="mb-4">
+    <div class="p-4 bg-light rounded-3">
+        <h2 class="h5">Your details stay yours</h2>
+        <p class="text-muted mb-0">
+            We only keep what the gym needs to run your membership and your bookings, and we
+            don't sell it to anyone.
+            <a asp-controller="Home" asp-action="Privacy">Read the privacy policy</a>.
+        </p>
+    </div>
+</section>
+
+@* ---------- Cookie consent popup ---------- *@
+<div class="gm-cookie d-none" id="cookieConsent" role="dialog" aria-live="polite" aria-label="Cookie notice">
+    <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
+        <p class="mb-0 small flex-grow-1">
+            We use cookies to keep you signed in and remember your choices.
+            <a asp-controller="Home" asp-action="Privacy">Read our privacy policy</a>.
+        </p>
+        <div class="d-flex gap-2 flex-shrink-0">
+            <button type="button" class="btn btn-sm btn-outline-light" id="cookieDecline">Decline</button>
+            <button type="button" class="btn btn-sm btn-primary" id="cookieAccept">Accept</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Shows the cookie notice once, then remembers the choice in the browser
+        // so it does not appear on every page load.
+        (function () {
+            var KEY = 'gm-cookie-choice';
+            var banner = document.getElementById('cookieConsent');
+            if (!banner) return;
+
+            if (!localStorage.getItem(KEY)) {
+                banner.classList.remove('d-none');
+            }
+
+            function choose(value) {
+                localStorage.setItem(KEY, value);
+                banner.classList.add('d-none');
+            }
+
+            document.getElementById('cookieAccept').addEventListener('click', function () {
+                choose('accepted');
+            });
+            document.getElementById('cookieDecline').addEventListener('click', function () {
+                choose('declined');
+            });
+        })();
+    </script>
+}
